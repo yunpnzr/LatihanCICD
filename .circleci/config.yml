@@ -1,13 +1,11 @@
 version: 2.1
-
+ 
 orbs:
   android: circleci/android@0.2.1
-
+ 
 jobs:
   build:
     executor: android/android
-    environment:
-      JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64 
     steps:
       - checkout
       - restore_cache:
@@ -15,22 +13,6 @@ jobs:
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
-      - run:
-          name: Add Cloud SDK GPG Key
-          command: |
-            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-      - run:
-          name: Add Cloud SDK Repository
-          command: |
-            echo "deb https://packages.cloud.google.com/apt cloud-sdk-buster main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-      - run:
-          name: Install Java 17 and Google Cloud SDK
-          command: |
-            sudo apt update
-            sudo apt install openjdk-17-jdk
-            sudo apt-get install apt-transport-https ca-certificates gnupg -y
-            sudo apt update
-            sudo apt install google-cloud-sdk
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
