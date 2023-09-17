@@ -1,11 +1,13 @@
 version: 2.1
- 
+
 orbs:
   android: circleci/android@0.2.1
- 
+
 jobs:
   build:
     executor: android/android
+    environment:
+      JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64 
     steps:
       - checkout
       - restore_cache:
@@ -13,6 +15,11 @@ jobs:
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
+      - run:
+          name: Install Java 17
+          command: |
+            sudo apt update
+            sudo apt install openjdk-17-jdk
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
