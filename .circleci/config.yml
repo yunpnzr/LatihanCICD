@@ -20,13 +20,17 @@ jobs:
           command: |
             curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
       - run:
-          name: Install Java 17
+          name: Add Cloud SDK Repository
+          command: |
+            echo "deb https://packages.cloud.google.com/apt cloud-sdk-buster main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+      - run:
+          name: Install Java 17 and Google Cloud SDK
           command: |
             sudo apt update
             sudo apt install openjdk-17-jdk
-            curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-355.0.0-linux-x86_64.tar.gz
-            tar -xvf google-cloud-sdk-355.0.0-linux-x86_64.tar.gz
-            ./google-cloud-sdk/install.sh
+            sudo apt-get install apt-transport-https ca-certificates gnupg -y
+            sudo apt update
+            sudo apt install google-cloud-sdk
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
