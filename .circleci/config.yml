@@ -20,6 +20,9 @@ jobs:
           command: |
             sudo apt update
             sudo apt install openjdk-17-jdk
+            curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-355.0.0-linux-x86_64.tar.gz
+            tar -xvf google-cloud-sdk-355.0.0-linux-x86_64.tar.gz
+            ./google-cloud-sdk/install.sh
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
