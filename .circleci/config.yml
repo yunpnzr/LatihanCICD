@@ -33,6 +33,11 @@ jobs:
             - ~/.android/build-cache
             - ~/.android/cache
       - run:
+          name: Use Java 17 for Gradle
+          command: |
+            export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+            ./gradlew --version
+      - run:
           name: Run Build
           command: ./gradlew build
       - store_artifacts: 
